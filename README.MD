@@ -2,6 +2,30 @@
 
 A Dockerized REST API service for text recognition using WeChat's OCR engine.
 
+## 不同设备结果不同修复
+```
+编辑 GRUB 启动参数：
+sudo nano /etc/default/grub
+找到这行：
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+改为：
+
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash clearcpuid=304"
+找到这行：
+GRUB_CMDLINE_LINUX=""
+改为：
+
+GRUB_CMDLINE_LINUX="console=tty1 console=ttyS0 clearcpuid=304"
+然后执行：
+sudo update-grub
+sudo reboot
+重启后验证
+执行：
+
+lscpu | grep avx
+没有看到avx512就是成功
+```
+
 ## Overview
 
 This project wraps the WeChat OCR functionality from the excellent [wechat-ocr](https://github.com/swigger/wechat-ocr) project into a simple REST API service that can be easily deployed using Docker. It allows you to perform optical character recognition on images by leveraging WeChat's powerful OCR capabilities.
