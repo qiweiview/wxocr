@@ -3,7 +3,7 @@
 A Dockerized REST API service for text recognition using WeChat's OCR engine.
 
 ## 不同设备结果不同修复
-```
+```shell
  正确命令：CentOS / RHEL 更新 GRUB 的方法如下：
 根据系统是 BIOS 还是 UEFI 启动方式，分别执行 其中之一：
 
