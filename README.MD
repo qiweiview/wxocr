@@ -3,8 +3,13 @@
 A Dockerized REST API service for text recognition using WeChat's OCR engine.
 
 ## 不同设备结果不同修复
- 
----
+```
+修改/etc/default/grub
+找到
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
+追加
+GRUB_CMDLINE_LINUX_DEFAULT="quiet splash clearcpuid=304"
+
 
 ## ✅ 正确命令：CentOS / RHEL 更新 GRUB 的方法如下：
 
@@ -56,8 +61,7 @@ grep avx512 /proc/cpuinfo
 ```
 
 如果没有输出，表示 `clearcpuid=304` 成功生效，AVX-512 被禁用。
-
----
+```
  
 
 ## Overview
