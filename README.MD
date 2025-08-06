@@ -4,26 +4,44 @@ A Dockerized REST API service for text recognition using WeChat's OCR engine.
 
 ## 不同设备结果不同修复
 ```
-编辑 GRUB 启动参数：
-sudo nano /etc/default/grub
-找到这行：
-GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"
-改为：
+ 正确命令：CentOS / RHEL 更新 GRUB 的方法如下：
+根据系统是 BIOS 还是 UEFI 启动方式，分别执行 其中之一：
 
-GRUB_CMDLINE_LINUX_DEFAULT="quiet splash clearcpuid=304"
-找到这行：
-GRUB_CMDLINE_LINUX=""
-改为：
+🧭 第一步：判断是 BIOS 还是 UEFI
+运行以下命令：
 
-GRUB_CMDLINE_LINUX="console=tty1 console=ttyS0 clearcpuid=304"
-然后执行：
-sudo update-grub
+bash
+Copy
+Edit
+[ -d /sys/firmware/efi ] && echo "UEFI" || echo "BIOS"
+如果输出是 UEFI → 执行 UEFI 命令
+
+如果输出是 BIOS → 执行 BIOS 命令
+
+✅ 第二步：执行对应的 grub 更新命令
+🔹 BIOS 系统：
+bash
+Copy
+Edit
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+🔹 UEFI 系统：
+bash
+Copy
+Edit
+sudo grub2-mkconfig -o /boot/efi/EFI/centos/grub.cfg
+注意：路径可能根据系统不同是 centos、rocky、almalinux，你也可以先 ls /boot/efi/EFI/ 看一下目录名。
+
+✅ 第三步：重启系统
+bash
+Copy
+Edit
 sudo reboot
-重启后验证
-执行：
-
-lscpu | grep avx
-没有看到avx512就是成功
+✅ 第四步：验证是否禁用了 AVX-512
+bash
+Copy
+Edit
+grep avx512 /proc/cpuinfo
+如果没有输出，表示 clearcpuid=304 成功生效，AVX-512 被禁用。
 ```
 
 ## Overview
